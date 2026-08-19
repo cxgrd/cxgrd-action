@@ -13,19 +13,25 @@ inputs:
     description: 'Risk level that fails the build when --ci is used: low|medium|high|critical'
     required: false
     default: 'critical'
+  working-directory:
+    description: 'Repository directory to analyze, relative to the GitHub workspace'
+    required: false
+    default: '.'
 
 runs:
   using: 'composite'
   steps:
     - shell: bash
       run: npm ci
-      working-directory: ${{ github.workspace }}
+      working-directory: ${{ github.workspace }}/${{ inputs.working-directory }}
     - shell: bash
       run: npm install -g cxgrd
     - shell: bash
       run: cxgrd scan
+      working-directory: ${{ github.workspace }}/${{ inputs.working-directory }}
     - shell: bash
       run: cxgrd check --json > result.json
+      working-directory: ${{ github.workspace }}/${{ inputs.working-directory }}
       env:
         CXGRD_TOKEN: ${{ inputs.token }}
     - uses: actions/github-script@v7
@@ -33,7 +39,7 @@ runs:
         script: |
           # your comment-posting logic
             const fs = require('fs');
-            const result = JSON.parse(fs.readFileSync('result.json', 'utf8'));
+            const result = JSON.parse(fs.readFileSync(`${process.env.GITHUB_WORKSPACE}/${{ inputs.working-directory }}/result.json`, 'utf8'));
 
             const body = `## CXGRD Blast Radius\n # Here is the summary of the blast radius analysis:\nRisk: ${result.blastResult.riskLevel}\nAffected files: ${result.blastResult.affectedFiles.map(f => f.path).join(', ')}`;
 
