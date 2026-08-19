@@ -37,7 +37,6 @@ runs:
     - uses: actions/github-script@v7
       with:
         script: |
-          # your comment-posting logic
             const fs = require('fs');
             const result = JSON.parse(fs.readFileSync(`${process.env.GITHUB_WORKSPACE}/${{ inputs.working-directory }}/result.json`, 'utf8'));
 
