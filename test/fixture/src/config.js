@@ -1,1 +1,1 @@
-export const greetingPrefix = 'Hello from the test fixture';
+export const greetingPrefix = 'Hello from the test fixture repo';
