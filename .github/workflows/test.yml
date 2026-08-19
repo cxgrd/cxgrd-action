@@ -1,0 +1,46 @@
+name: Test CXGRD action
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  test-action:
+    name: Analyze fixture repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out action and fixture
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Create fixture baseline and change
+        shell: bash
+        working-directory: test/fixture
+        run: |
+          git init
+          git config user.name "CXGRD action test"
+          git config user.email "actions@cxgrd.com"
+          git add .
+          git commit -m "fixture baseline"
+          git branch -M main
+          git remote add origin .
+          git update-ref refs/remotes/origin/main HEAD
+          sed -i "s/Hello/Hello from the test fixture/" src/config.js
+          git add src/config.js
+          git commit -m "fixture change under test"
+
+      - name: Run local CXGRD action
+        uses: ./
+        with:
+          working-directory: test/fixture
+          fail-on: critical
