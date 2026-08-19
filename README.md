@@ -61,7 +61,7 @@ The action runs the standard `cxgrd check --json` command. The `token` and `fail
 
 ## Authentication
 
-Authentication is optional for the local structural and compiler checks. For Team-plan CI enforcement, provide the token from a repository or organization secret:
+Authentication is optional for the local structural and compiler checks. For Team-plan CI enforcement, provide the token from team dashboard:
 
 ```yaml
 - name: Run CXGRD
