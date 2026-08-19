@@ -1,5 +1,7 @@
 # CXGRD Blast Radius Check
 
+[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-CXGRD%20Blast%20Radius%20Check-blue?logo=github)](https://github.com/marketplace/actions/cxgrd-blast-radius-check)
+
 Run [CXGRD](https://www.cxgrd.com) in GitHub Actions to analyze a repository's dependency graph, calculate blast radius, and publish the result as a pull request comment.
 
 CXGRD is designed for teams using AI-assisted development. It makes the likely impact of a change visible during review so maintainers can investigate high-risk changes before merging.
