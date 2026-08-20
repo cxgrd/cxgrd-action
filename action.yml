@@ -22,7 +22,7 @@ runs:
   using: 'composite'
   steps:
     - shell: bash
-      run: npm ci
+      run: npm ci         # change this command according to the package manager used in your project
       working-directory: ${{ github.workspace }}/${{ inputs.working-directory }}
     - shell: bash
       run: npm install -g cxgrd
@@ -40,7 +40,7 @@ runs:
             const fs = require('fs');
             const result = JSON.parse(fs.readFileSync(`${process.env.GITHUB_WORKSPACE}/${{ inputs.working-directory }}/result.json`, 'utf8'));
 
-            const body = `## CXGRD Blast Radius\n # Here is the summary of the blast radius analysis:\nRisk: ${result.blastResult.riskLevel}\nAffected files: ${result.blastResult.affectedFiles.map(f => f.path).join(', ')}`;
+            const body = `## CXGRD Blast Radius\n # Here is the summary of the blast radius analysis:\nRisk: ${result.blastResult.riskLevel}\nAffected files: ${result.blastResult.affectedFiles.map(f => f.path).join(', ')}\n Changed Types: ${result.blastResult.changeTypes.join(', ')}\n Recommendations: ${result.blastResult.recommendations.join(', ')}\n\nPlease review the affected files and consider the potential impact of the changes.`;
 
             const marker = '<!-- cxgrd-check -->';
             const { data: comments } = await github.rest.issues.listComments({
