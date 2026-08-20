@@ -47,6 +47,8 @@ jobs:
 					fail-on: critical
 ```
 
+Add the install command in the yaml script according to the programming language used.
+
 ## Inputs
 
 | Input | Required | Default | Description |
